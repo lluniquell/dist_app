@@ -1,0 +1,197 @@
+﻿<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.getElementById("btn").addEventListener("click",buttonClickAction);
+    document.getElementById("clearbtn").addEventListener("click",clearRow);
+    document.getElementById("lo").addEventListener("input",getUpdate);
+
+    var selectBoxes = document.querySelectorAll('select');
+    M.FormSelect.init(selectBoxes);
+    var datePicker = document.getElementById('exDate'); 
+    M.Datepicker.init(datePicker);
+    
+    
+});
+
+function clearRow(){
+document.getElementById("lo").value = document.getElementById("lo").value;
+document.getElementById("bn").value = "";
+document.getElementById("gn").value = "";
+document.getElementById("innerQuantity").value = "";
+document.getElementById("boxQuantity").value = "";
+document.getElementById("addQuantity").value = "";
+document.getElementById("totalQuatity").value = "";
+document.getElementById("exDate").value = "";
+document.getElementById("cp").value = "";
+document.getElementById("moreInfo").value = "";
+document.getElementById("maxBox").value = "";
+document.getElementById("palletRate").value = "";
+
+
+addRecord();
+
+    
+}   
+
+
+
+
+function buttonClickAction(){
+
+    var toValidate  = {
+    lo: "로케이션을 입력하세요",
+    wu: "작업자를 선택하세요",
+    bn: "브랜드명을 입력하세요",
+    gn : "상품명을 입력하세요",
+    cp: "파레트를 선택하세요",
+    };
+
+    var idKeys = Object.keys(toValidate);
+    
+    var allValid = true;
+    
+    idKeys.forEach(function(id){
+        var isValid = checkIfValid(id,toValidate[id]);
+
+        if(!isValid){
+        allValid = false;
+        }
+    });
+
+    if(allValid){
+    addRecord();
+
+    }
+}
+
+function checkIfValid(elID,message) {
+    var isValid = document.getElementById(elID).checkValidity();
+
+    if(!isValid){
+        M.toast({html: message})
+    return false;
+    } 
+    
+    return true;
+}
+
+function addRecord(){
+var rackInfo = {};
+rackInfo.location = document.getElementById("lo").value;
+rackInfo.brandName = document.getElementById("bn").value;
+rackInfo.goodName = document.getElementById("gn").value;
+rackInfo.innerQuantity = document.getElementById("innerQuantity").value;
+rackInfo.boxQuantity = document.getElementById("boxQuantity").value;
+rackInfo.addQuantity = document.getElementById("addQuantity").value;
+rackInfo.totalQuatity = document.getElementById("totalQuatity").value;
+rackInfo.lastDay = document.getElementById("lastDay").value;
+rackInfo.exDate = document.getElementById("exDate").value;
+rackInfo.choosePallet = document.getElementById("cp").value;
+rackInfo.moreInfo = document.getElementById("moreInfo").value;
+rackInfo.workuser = document.getElementById("wu").value;
+rackInfo.maxBox = document.getElementById("maxBox").value;
+rackInfo.palletRate = document.getElementById("palletRate").value;
+
+google.script.run.userClicked(rackInfo);
+document.getElementById("lo").value = "";
+document.getElementById("bn").value = "";
+document.getElementById("gn").value = "";
+document.getElementById("innerQuantity").value = "";
+document.getElementById("boxQuantity").value = "";
+document.getElementById("addQuantity").value = "";
+document.getElementById("totalQuatity").value = "";
+document.getElementById("lastDay").value = "";
+document.getElementById("exDate").value = "";
+document.getElementById("cp").value = "";
+document.getElementById("moreInfo").value = "";
+document.getElementById("wu").value = "";
+document.getElementById("maxBox").value = "";
+document.getElementById("palletRate").value = "";
+M.updateTextFields();
+
+var myPallet = document.getElementById("cp");
+myPallet.selectedIndex = 0;
+
+M.FormSelect.init(myPallet);
+}
+
+function getUpdate(){
+
+var locaCode = document.getElementById("lo").value;
+      
+if(locaCode.length === 7){
+      google.script.run.withSuccessHandler(updateAlldata).getload(locaCode);
+      M.updateTextFields();
+      }      
+}
+
+function getload(){
+
+
+  var ss = SpreadsheetApp.openByUrl(url);
+  var dws = ss.getSheetByName("Data");
+  var data = dws.getDataRange().getValues();
+  
+  var  locationList = data.map(function(r){ return r[0]; });
+  var  brandName = data.map(function(r){ return r[1]; });
+  var  goodName = data.map(function(r){ return r[2]; });
+  var  innerQuantity = data.map(function(r){ return r[3]; });
+  var  boxQuantity = data.map(function(r){ return r[4]; });
+  var  addQuantity = data.map(function(r){ return r[5]; });
+  var  totalQuatity = data.map(function(r){ return r[6]; });
+  var  lastDay = data.map(function(r){ return r[7]; });
+  var  exDate = data.map(function(r){ return r[8]; });
+  var  choosePallet = data.map(function(r){ return r[9]; });
+  var  moreInfo = data.map(function(r){ return r[10]; });
+  var  workuser = data.map(function(r){ return r[11]; });
+  var  maxBox = data.map(function(r){ return r[12]; });
+  var  palletRate = data.map(function(r){ return r[13]; });
+
+  var position =  locationList.indexOf(locaCode);
+
+    if(position > -1){
+
+      var dataArray =  Array(
+        brandName[position],
+        goodName[position],
+        innerQuantity[position],
+        boxQuantity[position],
+        addQuantity[position],
+        totalQuatity[position],
+        lastDay[position],
+        exDate[position],
+        choosePallet[position],
+        moreInfo[position],
+        workuser[position],
+        maxBox[position],
+        palletRate[position]);
+
+   return  dataArray
+    
+    }
+    
+    };
+    
+function updateAlldata(dataArray){
+document.getElementById("bn").value = dataArray[0];
+document.getElementById("gn").value = dataArray[1];
+document.getElementById("innerQuantity").value = dataArray[2];
+document.getElementById("boxQuantity").value = dataArray[3];
+document.getElementById("addQuantity").value = dataArray[4];
+document.getElementById("totalQuatity").value = dataArray[5];
+document.getElementById("lastDay").value = dataArray[6];
+document.getElementById("exDate").value = dataArray[7];
+document.getElementById("cp").value = dataArray[8];
+document.getElementById("moreInfo").value = dataArray[9];
+document.getElementById("wu").value = dataArray[10];
+document.getElementById("maxBox").value = dataArray[11];
+document.getElementById("palletRate").value = dataArray[12];
+M.updateTextFields();
+
+}
+
+
+</script>
+
+

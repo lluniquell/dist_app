@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_self">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body>
+  
+  <div class="container">
+    <H6>    파레트 적재 현황 </H6>
+    <div class="row">
+        <div class="input-field col s4">
+            <input id="lo" type="text" class="validate" required >
+            <label for="lo">로케이션</label>
+        </div>
+        
+        <div class="input-field col s4">
+            <select id="wu" required>
+            <option value=""  selected>작업자를 선택하세요</option>
+            <?!= userList; ?>
+            </select>
+
+            <label>작업자명</label>
+        </div>         
+  
+        <div class="input-field col s4">
+            <input disabled id="lastDay" type="text" >
+            <label for="lastDay">최종수정일</label>
+        </div>
+    </div> <!-- CLOSE ROW -->
+    
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="bn" type="text" class="validate" required >
+            <label for="bn">브랜드명</label>
+        </div>  
+    
+        <div class="input-field col s6">
+            <input id="exDate"  type="text" class="datepicker" >
+            <label for ="exDate">유통기한</label>
+        </div>
+    </div> <!-- CLOSE ROW -->
+    
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="gn"  type="text" class="validate" required >
+            <label for ="gn">상품명</label>
+        </div>
+    </div> <!-- CLOSE ROW -->
+  
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="moreInfo"  type="text"  >
+            <label for ="moreInfo">비고</label>
+        </div>
+    </div> <!-- CLOSE ROW -->
+  
+    <div class="row">
+        <div class="input-field col s4">
+   
+            <select id="cp" required>
+            <option value="" disabled selected>파레트를 선택하세요</option>
+            <?!= palletList; ?>
+            </select>
+            
+            <label >파레트종류</label>
+        </div> 
+        
+        <div class="input-field col s4">
+            <input id="maxBox"  type="text"  >
+            <label for ="maxBox">최대적재수량 </label>
+        </div>
+        
+        <div class="input-field col s4">
+            <input disabled id="palletRate"  type="text" >
+            <label for ="maxBox">적재율 </label>
+        </div>
+        
+    </div> <!-- CLOSE ROW -->
+    <div class="row">
+        <div class="input-field col s3">
+            <input id="innerQuantity" type="text"  >
+            <label for="innerQuantity">내품수량</label>
+        </div>
+        
+        <div class="input-field col s3">
+            <input id="boxQuantity" type="text"  >
+            <label for="boxQuantity">박스수량</label>
+        </div>
+        
+        <div class="input-field col s3">
+            <input id="addQuantity" type="text"  >
+            <label for="addQuantity">추가수량</label>
+        </div>
+        <div class="input-field col s3">
+            <input disabled id="totalQuatity" type="text" >
+            <label for="totalQuatity">합계수량</label>
+        </div>     
+    </div> <!-- CLOSE ROW -->
+    
+    <div class="row">
+    <button id ="btn" class="waves-effect waves-light btn-small indigo darken-3"><i class="material-icons left">chevron_right</i>SAVE</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button id ="clearbtn" class="waves-effect waves-light btn-small red accent-4"><i class="material-icons left">chevron_right</i>CLEAR</button>
+    </div> <!-- CLOSE ROW -->
+    </div><!-- CLOSE CONTAINER -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+       
+    <?!=include("page-js");  ?>    
+  </body>
+</html>
+
